@@ -22,17 +22,21 @@ class NewTransaction extends StatelessWidget {
             TextField(
               decoration: InputDecoration(labelText: 'Ammount'),
               controller: amountController,
+              keyboardType: TextInputType.number,
+              onSubmitted: (_) => submitData,
             ),
             FlatButton(
               child: Text("Add"),
-              onPressed: () {
-                this.addTx(titleController.text, double.parse(amountController.text));
-              },
+              onPressed: submitData,
               textColor: Colors.deepOrange,
             )
           ],
         ),
       ),
     );
+  }
+
+  void submitData(){
+    this.addTx(titleController.text, double.parse(amountController.text));
   }
 }
