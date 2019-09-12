@@ -29,7 +29,7 @@ class Transactions extends StatelessWidget {
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.purple,
+                        color: Theme.of(context).primaryColor,
                         width: 2,
                       )),
                   padding: EdgeInsets.all(10),
@@ -43,7 +43,7 @@ class Transactions extends StatelessWidget {
                     ),
                     Text(
                       DateFormat("dd-MM-yyyy").format(tx.date),
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(color: Theme.of(context).primaryColor),
                     )
                   ],
                 )
