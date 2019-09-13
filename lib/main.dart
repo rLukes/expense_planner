@@ -1,3 +1,5 @@
+import './widgets/chart.dart';
+
 import './widgets/new_transaction.dart';
 import './model/transaction.dart';
 import './widgets/transactions_list.dart';
@@ -39,6 +41,13 @@ class _ExpensePlannerHomePageState extends State<ExpensePlannerHomePage> {
     Transaction(id: 't2', title: "Bread", amount: 40.0, date: DateTime.now())*/
   ];
 
+  List<Transaction> get _recentTransactions{
+    return this._userTransactions.where((tx){
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
+
+
   void _addNewTransaction(String txTitle, double amount) {
     final newTx = Transaction(
         title: txTitle,
@@ -66,15 +75,8 @@ class _ExpensePlannerHomePageState extends State<ExpensePlannerHomePage> {
         //  mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(
-            width: double.infinity,
-            child: Card(
-              color: Colors.deepOrangeAccent,
-              child: Text('Chart'),
-              elevation: 5,
-            ),
-          ),
-          Transactions(this._userTransactions)
+          Chart(this._userTransactions),
+          Transactions(_recentTransactions)
         ],
       ),
       floatingActionButton: FloatingActionButton(
