@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -10,8 +11,8 @@ class NewTransaction extends StatefulWidget {
 
 class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
-
   final amountController = TextEditingController();
+  DateTime date;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +33,33 @@ class _NewTransactionState extends State<NewTransaction> {
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData,
             ),
-            FlatButton(
-              child: Text("Add"),
+            Container(
+              height: 70,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                      child: Text(date == null
+                          ? 'no date chosen!'
+                          : 'Picked Date: ${DateFormat.yMMMd().format(date)}')),
+                  FlatButton(
+                    textColor: Theme.of(context).primaryColor,
+                    child: Text(
+                      'Choose date',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    onPressed: _presentDatePicker,
+                  )
+                ],
+              ),
+            ),
+            RaisedButton(
+              child: Text(
+                "Add",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               onPressed: submitData,
-              textColor: Colors.deepOrange,
+              textColor: Theme.of(context).textTheme.button.color,
+              color: Theme.of(context).primaryColor,
             )
           ],
         ),
@@ -43,8 +67,30 @@ class _NewTransactionState extends State<NewTransaction> {
     );
   }
 
-  void submitData(){
-    this.widget.addTx(titleController.text, double.parse(amountController.text));
+  void _presentDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2019),
+            lastDate: DateTime.now())
+        .then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        date = pickedDate;
+      });
+    });
+  }
+
+  void submitData() {
+    if(titleController.text.isEmpty || amountController.text.isEmpty || date == null){
+      return;
+    }
+
+    this
+        .widget
+        .addTx(titleController.text, double.parse(amountController.text), date);
     Navigator.of(context).pop();
   }
 }

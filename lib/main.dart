@@ -17,8 +17,10 @@ class ExpensePlannerApp extends StatelessWidget {
           primarySwatch: Colors.deepOrange,
           accentColor: Colors.blue,
           fontFamily: 'Quicksand',
+          errorColor: Colors.red,
           textTheme: ThemeData.light().textTheme.copyWith(
-            title: TextStyle(fontFamily: 'OpenSans', fontWeight: FontWeight.bold, fontSize: 18)
+            title: TextStyle(fontFamily: 'OpenSans', fontWeight: FontWeight.bold, fontSize: 18),
+            button: TextStyle(color: Colors.white)
           ),
           appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
@@ -48,14 +50,24 @@ class _ExpensePlannerHomePageState extends State<ExpensePlannerHomePage> {
   }
 
 
-  void _addNewTransaction(String txTitle, double amount) {
+  void _addNewTransaction(String txTitle, double amount, DateTime date) {
     final newTx = Transaction(
         title: txTitle,
         amount: amount,
-        date: DateTime.now(),
+        date: date,
         id: DateTime.now().toString());
     setState(() {
       this._userTransactions.add(newTx);
+    });
+  }
+
+  void deleteTransaction(String id){
+    setState(() {
+      _userTransactions.removeWhere((r) => r.id == id);
+      // or
+/*      _userTransactions.removeWhere((tx){
+        return tx.id == id;
+      });*/
     });
   }
 
@@ -76,7 +88,7 @@ class _ExpensePlannerHomePageState extends State<ExpensePlannerHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Chart(this._userTransactions),
-          Transactions(_recentTransactions)
+          Expanded(child: Transactions(_recentTransactions,deleteTransaction))
         ],
       ),
       floatingActionButton: FloatingActionButton(
