@@ -21,10 +21,7 @@ class Transactions extends StatelessWidget {
                 Container(
                   child: Text(
                     '\$${tx.amount}',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.purple),
+                    style: Theme.of(context).textTheme.title,
                   ),
                   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   decoration: BoxDecoration(
