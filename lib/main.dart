@@ -34,9 +34,9 @@ class _ExpensePlannerHomePageState extends State<ExpensePlannerHomePage> {
   String titleInput;
 
   final List<Transaction> _userTransactions = [
-    Transaction(
+   /* Transaction(
         id: 't1', title: "New shoes", amount: 20.0, date: DateTime.now()),
-    Transaction(id: 't2', title: "Bread", amount: 40.0, date: DateTime.now())
+    Transaction(id: 't2', title: "Bread", amount: 40.0, date: DateTime.now())*/
   ];
 
   void _addNewTransaction(String txTitle, double amount) {
